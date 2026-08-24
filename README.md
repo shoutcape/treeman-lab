@@ -53,7 +53,8 @@ cd /home/shoutcape/github/treeman-lab
 Confirm deletion.
 
 ```bash
-docker exec treeman-lab-postgres psql -U postgres -d postgres -c '\\l treeman_lab__feature_test_db'
+docker exec treeman-lab-postgres psql -U postgres -d postgres -tAc \
+  "select datname from pg_database where datname = 'treeman_lab__feature_test_db'"
 ```
 
 ## Remote Branch Test
