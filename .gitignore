@@ -1,0 +1,4 @@
+.env
+.treeman-lab/
+.worktrees/
+node_modules/

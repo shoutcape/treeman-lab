@@ -1,0 +1,5 @@
+[database]
+env_key = "DATABASE_URL"
+
+[hooks]
+post_create = ["npm run post-create"]
