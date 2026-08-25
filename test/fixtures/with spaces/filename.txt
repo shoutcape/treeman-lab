@@ -1,0 +1,1 @@
+Fixture paths can contain spaces.

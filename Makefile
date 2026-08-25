@@ -1,4 +1,6 @@
-.PHONY: env up down status logs check
+TREEMAN_BIN ?= treeman
+
+.PHONY: env up down status logs check e2e
 
 env:
 	@test -f .env || cp .env.example .env
@@ -17,3 +19,6 @@ logs:
 
 check:
 	npm run check:db
+
+e2e: up
+	TREEMAN_BIN="$(TREEMAN_BIN)" ./scripts/e2e.sh
