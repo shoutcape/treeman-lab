@@ -203,6 +203,26 @@ can use letters, digits, `.`, `_`, `/`, and `-`, and must produce a PostgreSQL
 database name of 63 characters or fewer. Do not run concurrent E2E tests with
 the same branch name.
 
+## Automated Setup E2E
+
+Run the rerunnable setup lifecycle against a disposable branch and database:
+
+```bash
+make setup-e2e TREEMAN_BIN=/home/shoutcape/github/TreeMan/.worktrees/feature-rerunnable-setup-plan/bin/treeman
+```
+
+The test verifies real PostgreSQL reuse and data preservation, edited `.env`
+preservation, `--refresh-env` database protection, refresh with
+`--skip-database` while PostgreSQL is stopped, dependency repair after a
+database failure, hook approval and invocation-only trust, and the non-blocking
+per-worktree setup lock. It also checks that setup can resolve the target from a
+nested directory without changing Git worktree state.
+
+The test uses a unique `setup-e2e/<timestamp>` branch, adds only temporary lab
+configuration and environment files, and force-deletes only its own worktree.
+Logs are preserved under `.treeman-lab/setup-e2e/<timestamp>/` when a case fails.
+Do not run concurrent tests with the same `TREEMAN_SETUP_E2E_BRANCH` value.
+
 ## Not Covered
 
 The local bare `origin` has no GitHub or GitLab API. Use TreeMan's smoke test

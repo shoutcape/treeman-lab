@@ -1,6 +1,6 @@
 TREEMAN_BIN ?= treeman
 
-.PHONY: env up down status logs check e2e
+.PHONY: env up down status logs check e2e setup-e2e
 
 env:
 	@test -f .env || cp .env.example .env
@@ -22,3 +22,6 @@ check:
 
 e2e: up
 	TREEMAN_BIN="$(TREEMAN_BIN)" ./scripts/e2e.sh
+
+setup-e2e: up
+	TREEMAN_BIN="$(TREEMAN_BIN)" ./scripts/setup-e2e.sh
