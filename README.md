@@ -9,7 +9,7 @@ database cleanup.
 ```bash
 cd /home/shoutcape/github/treeman-lab
 make up
-npm install
+pnpm install
 make check
 ```
 
@@ -25,8 +25,8 @@ database is `treeman_lab`.
 | Environment copying | Ignored `.env` and tracked `.env.example` | Confirm both files exist in the new worktree. |
 | Database creation | `.treeman.toml` uses `DATABASE_URL` | Confirm `.env` points to the branch database. |
 | Database cleanup | Docker PostgreSQL on port `55432` | Delete the worktree and query `pg_database`. |
-| npm detection | `package-lock.json` | Confirm TreeMan runs `npm install` and creates `node_modules/`. |
-| Post-create hooks | `npm run post-create` | Confirm `.treeman-lab/post-create.log` contains the branch database. |
+| pnpm detection | `pnpm-lock.yaml` | Confirm TreeMan runs `pnpm install` and creates `node_modules/`. |
+| Post-create hooks | `pnpm run post-create` | Confirm `.treeman-lab/post-create.log` contains the branch database. |
 | Optional setup skips | `--skip-env`, `--skip-database`, `--skip-deps`, and `--skip-hooks` | Confirm the setup summary reports the requested skip. |
 | Setup failure handling | Stop PostgreSQL or temporarily use a failing hook | Confirm the worktree remains available and TreeMan prints a warning. |
 | Remote branch workflows | Local bare `origin` | Push a branch, remove its local ref, then run `treeman branch <branch>`. |
@@ -34,8 +34,8 @@ database is `treeman_lab`.
 | List and direct switching | Multiple linked worktrees | Run `treeman list --json` and `treeman switch <branch>`. |
 | Clean merged worktrees | A locally merged test branch | Run `treeman clean --dry-run`, then `treeman clean --yes`. |
 | Safe deletion | Unmerged test branches | Confirm delete needs `--force` until the branch is merged. |
-| Fixture paths and modes | `test/fixtures/` contains nested, hidden, spaced, and executable files | Run `npm test` and create a worktree to confirm the files and modes are preserved. |
-| Dependency installation breadth | `pg` plus `vitest` and its transitive packages | Run `npm install` or create a worktree without `--skip-deps`. |
+| Fixture paths and modes | `test/fixtures/` contains nested, hidden, spaced, and executable files | Run `pnpm test` and create a worktree to confirm the files and modes are preserved. |
+| Dependency installation breadth | `pg` plus `vitest` and its transitive packages | Run `pnpm install` or create a worktree without `--skip-deps`. |
 
 The tracked `test/fixtures/` directory is intentionally deterministic test data.
 It includes branch names with slash, dot, underscore, and hyphen characters, as
@@ -44,7 +44,7 @@ well as paths that commonly expose worktree copy or cleanup bugs.
 Run the fixture checks with:
 
 ```bash
-npm test
+pnpm test
 ```
 
 ## Test Current TreeMan
@@ -66,9 +66,9 @@ cd /home/shoutcape/github/treeman-lab
 Expected results in `.worktrees/feature-test-db`:
 
 - `.env` contains `treeman_lab__feature_test_db`.
-- `node_modules/` exists after `npm install`.
+- `node_modules/` exists after `pnpm install`.
 - `.treeman-lab/post-create.log` contains `treeman_lab__feature_test_db`.
-- `npm run check:db` connects to the branch database.
+- `pnpm run check:db` connects to the branch database.
 
 Delete the worktree and database from the main worktree.
 
@@ -190,7 +190,7 @@ make e2e TREEMAN_BIN=/home/shoutcape/github/TreeMan/.worktrees/feature-faster-da
 
 The E2E test starts PostgreSQL if needed, creates a unique `e2e/<timestamp>`
 branch, and captures TreeMan output. It verifies the linked worktree, copied
-environment, npm installation, branch database, post-create hook, database
+environment, pnpm installation, branch database, post-create hook, database
 connection, and `list --json` output. It then force-deletes only its own
 `e2e/` worktree and verifies that both the branch and database no longer exist.
 
@@ -262,7 +262,7 @@ state and recreate the base environment.
 ```bash
 rm -rf .treeman-lab node_modules .env
 make up
-npm install
+pnpm install
 ```
 
 Use `make down` to stop PostgreSQL. Use `docker compose down -v` only when you

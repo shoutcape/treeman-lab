@@ -127,7 +127,7 @@ grep -Fx "$DATABASE_NAME" "$WORKTREE_PATH/.treeman-lab/post-create.log" >/dev/nu
 
 (
   cd "$WORKTREE_PATH"
-  npm run check:db
+  pnpm run check:db
 ) >&2
 "$TREEMAN_BIN" list --json > "$LIST_JSON"
 grep -F "\"branch\":\"$BRANCH\"" "$LIST_JSON" >/dev/null
