@@ -2,4 +2,4 @@
 env_key = "DATABASE_URL"
 
 [hooks]
-post_create = ["npm run post-create"]
+post_create = ["pnpm run post-create"]

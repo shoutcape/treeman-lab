@@ -18,7 +18,7 @@ logs:
 	docker compose logs -f postgres
 
 check:
-	npm run check:db
+	pnpm run check:db
 
 e2e: up
 	TREEMAN_BIN="$(TREEMAN_BIN)" ./scripts/e2e.sh

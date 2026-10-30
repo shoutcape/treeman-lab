@@ -205,7 +205,7 @@ printf '%s\n' \
   'env_key = "DATABASE_URL"' \
   '' \
   '[hooks]' \
-  "post_create = [\"npm run post-create\", 'test -z \"\$TREEMAN_LAB_HOOK_START\" || (printf started > \"\$TREEMAN_LAB_HOOK_START\"; sleep \"\$TREEMAN_LAB_HOOK_DELAY_SECONDS\") # setup-e2e-$RUN_ID']" \
+  "post_create = [\"pnpm run post-create\", 'test -z \"\$TREEMAN_LAB_HOOK_START\" || (printf started > \"\$TREEMAN_LAB_HOOK_START\"; sleep \"\$TREEMAN_LAB_HOOK_DELAY_SECONDS\") # setup-e2e-$RUN_ID']" \
   > "$CONFIG_PATH"
 
 printf 'SETUP E2E create: %s\n' "$BRANCH" >&2
@@ -278,7 +278,7 @@ POSTGRES_STOPPED=true
 printf 'SETUP E2E best-effort continuation with database unavailable\n' >&2
 run_setup "$FAILURE_LOG" --skip-hooks
 assert_file_contains "$FAILURE_LOG" "database setup failed"
-assert_file_contains "$FAILURE_LOG" "Completed npm install"
+assert_file_contains "$FAILURE_LOG" "Completed pnpm install"
 [[ -d "$WORKTREE_PATH/node_modules" ]] || fail "dependency installation did not continue after database failure"
 
 docker compose up -d --wait postgres >/dev/null
@@ -298,7 +298,7 @@ assert_value "hook log after denied run" "$HOOK_LINES_BEFORE" "$(hook_line_count
 
 TREEMAN_LAB_HOOK_START= TREEMAN_LAB_HOOK_DELAY_SECONDS= \
   run_setup "$HOOK_TRUSTED_LOG" --rerun-hooks --trust-hooks --skip-env --skip-database --skip-deps
-assert_file_contains "$HOOK_TRUSTED_LOG" "Ran: npm run post-create"
+assert_file_contains "$HOOK_TRUSTED_LOG" "Ran: pnpm run post-create"
 assert_value "hook log after trusted run" "$((HOOK_LINES_BEFORE + 1))" "$(hook_line_count)"
 
 set +e
